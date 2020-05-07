@@ -13,12 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
-
-
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class Reader {
@@ -42,16 +39,16 @@ public class Reader {
             try {
                 Date barrier =dmyFormat.parse("1999-12-31");
                 //imperitive for small lists
-                //            Set<Bean> bean2 = new HashSet<Bean>();
-                //            for(Bean item : bean5) {
-                //                if (item.getDate_of_birth().getTime() < barrier.getTime()) {
-                //                    bean2.add(item);
-                //                }
-                //            }
+//                            Set<Bean> bean2 = new HashSet<Bean>();
+//                            for(Bean item : bean5) {
+//                                if (item.getDate_of_birth().getTime() < barrier.getTime()) {
+//                                    bean2.add(item);
+//                                }
+//                            }
 
                 //functional for biglists
                 Set<Bean> bean2 = bean5.parallelStream().filter(u ->(u.getDate_of_birth().getTime() < barrier.getTime()
-                        )).collect(Collectors.toCollection(HashSet::new));
+                        )).collect(Collectors.toSet());
 
                 List<Bean> bean3 = new ArrayList<Bean>(bean2);
                 Collections.sort(bean3, new Comparator() {
